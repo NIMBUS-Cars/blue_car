@@ -181,7 +181,7 @@ class LaneFollower{
 
     //PUBLISH OBJECT DETECTION DATA
     //TEST DATA
-    default_car::CarObject testObject;
+    blue_car::CarObject testObject;
     if(foundCar){
       testObject.classID = 2;
       testObject.minX = minX;
