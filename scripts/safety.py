@@ -80,11 +80,17 @@ class Safety(object):
         self.brake_bool_msg.data = (min_ttc <= self.ttc_threshold)
         self.brake_bool.publish(self.brake_bool_msg)
         
+	def drive_forward(self):
+		drive = rospy.Publisher('nav_drive_topic', AckermannDriveStamped, queue_size=10)
+		drive_msg = AckermannDriveStamped()
+		drive_msg.drive.speed() = 0.5
+		drive.publish(drive_msg)
 
 
 def main():
     rospy.init_node('safety')
     sn = Safety()
+	sn.drive_forward()
     rospy.spin()
 if __name__ == '__main__':
     main()
