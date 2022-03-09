@@ -1,4 +1,3 @@
 # blue_car
 
-Spring 2022
-Team: Jonah Burke, Patrick Murphy, Samuel Briggs, Brady Smith
+This is a test commit to make sure I'm in
