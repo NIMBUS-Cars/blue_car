@@ -84,7 +84,8 @@ class Safety(object):
 def main():
     rospy.init_node('safety')
     #sn = Safety()
-    drive = rospy.Publisher(rospy.get_param("/nav_drive_topic"), AckermannDriveStamped, queue_size=10)
+    #drive = rospy.Publisher(rospy.get_param("/nav_drive_topic"), AckermannDriveStamped, queue_size=10)
+    drive = rospy.Publisher('/vesc/high_level/ackermann_cmd_mux/input/nav_0', AckermannDriveStamped, queue_size=10)
     drive_msg = AckermannDriveStamped()
     drive_msg.drive.speed = 1.0
     drive.publish(drive_msg)
