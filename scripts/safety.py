@@ -89,7 +89,7 @@ def main():
     drive_msg = AckermannDriveStamped()
     drive_msg.drive.speed = 1.0
     drive.publish(drive_msg)
-    rospy.loginfo('Hello World')
+    rospy.loginfo('Jonah Says Hello!!!!!')
     rospy.spin()
 
 if __name__ == '__main__':
