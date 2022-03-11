@@ -58,7 +58,7 @@ class Safety(object):
         self.speed = 0
         self.ttc_threshold = 0.5
         rospy.Subscriber('/scan', LaserScan, self.scan_callback)
-        rospy.Subscriber('/odom', Odometry, self.odom_callback)
+        rospy.Subscriber('/vesc/odom', Odometry, self.odom_callback)
         self.brake = rospy.Publisher('brake', AckermannDriveStamped, queue_size=10)
         self.brake_msg = AckermannDriveStamped()
         self.brake_bool = rospy.Publisher('brake_bool', Bool, queue_size=10)
@@ -89,6 +89,7 @@ def main():
     drive_msg = AckermannDriveStamped()
     drive_msg.drive.speed = 1.0
     drive.publish(drive_msg)
+    rospy.loginfo('Hello World')
     rospy.spin()
 
 if __name__ == '__main__':
