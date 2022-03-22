@@ -54,8 +54,8 @@ def calculate_ttc(r, v, theta):
 # This safety class is based on https://github.com/f1tenth/f1tenth_labs/blob/main/lab2/code/scripts/safety_node.py
 class Safety(object):
     def __init__(self):
-        self.speed = 1.0
-        self.ttc_threshold = 0.5
+        self.speed = 0.75
+        self.ttc_threshold = 1.0
         rospy.Subscriber('/scan', LaserScan, self.scan_callback)
         self.drive = rospy.Publisher(rospy.get_param('/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         #self.drive = rospy.Publisher("/vesc/high_level/ackermann_cmd_mux/input/nav_0", AckermannDriveStamped, queue_size=10)
