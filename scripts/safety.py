@@ -60,7 +60,7 @@ class Safety(object):
         self.drive = rospy.Publisher(rospy.get_param('/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         #self.drive = rospy.Publisher("/vesc/high_level/ackermann_cmd_mux/input/nav_0", AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
-        f = open("~/test_document.txt", "w")
+        f = open("test_document.txt", "w")
         f.write("This is a test!")
         f.close()
         rospy.loginfo("!!!!!!! It Ran !!!!!!!!")
