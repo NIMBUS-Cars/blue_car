@@ -75,7 +75,8 @@ class Safety(object):
             self.speed = 0
             rospy.loginfo("!!!!!!! Stopped !!!!!!!!")
         self.ttc_data_file = open("ttc_data.txt", "a")
-        self.ttc_data_file.write("%lf, %lf", self.ttc_threshold, min_ttc)
+        test_str = f'{self.ttc_threshold}, {min_ttc}'
+        self.ttc_data_file.write(test_str)
         self.ttc_data_file.close()
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
