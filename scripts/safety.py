@@ -74,7 +74,7 @@ class Safety(object):
         if min_ttc <= self.ttc_threshold:
             self.speed = 0
             rospy.loginfo("!!!!!!! Stopped !!!!!!!!")
-        if (self.speed > 0):
+        if min_ttc != 'inf':
             self.ttc_data_file = open("ttc_data.txt", "a")
             self.ttc_data_file.write(str(self.ttc_threshold) + ", " + str(min_ttc) + "\n")
             self.ttc_data_file.close()
