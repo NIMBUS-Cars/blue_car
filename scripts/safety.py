@@ -59,9 +59,8 @@ class Safety(object):
         rospy.Subscriber('/scan', LaserScan, self.scan_callback)
         self.drive = rospy.Publisher(rospy.get_param('/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
-        f = open("test_document_2.txt", "w")
-        f.write("This is a test!")
-        f.close()
+        self.ttc_data_file = open("ttc_data.txt", "w") # This file is located in ~/.ros
+        self.ttc_data_file.write("ttc_threshold, min_ttc")
         rospy.loginfo("!!!!!!! It Ran !!!!!!!!")
 
     def scan_callback(self, scan_msg):
@@ -74,6 +73,7 @@ class Safety(object):
         if min_ttc <= self.ttc_threshold:
             self.speed = 0
             rospy.loginfo("!!!!!!! Stopped !!!!!!!!")
+        self.ttc_data_file.write(f'{self.ttc_threshold}, {min_ttc}')
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
 
@@ -82,6 +82,8 @@ def main():
     rospy.init_node('safety')
     sn = Safety()
     rospy.spin()
+    rospy.loginfo("!!!!!!! Program Closing !!!!!!!!")
+    sn.ttc_data_file.close()
 
 if __name__ == '__main__':
     main()
