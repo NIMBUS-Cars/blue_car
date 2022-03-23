@@ -60,9 +60,8 @@ class Safety(object):
         self.drive = rospy.Publisher(rospy.get_param('/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
         self.ttc_data_file = open("ttc_data.txt", "w") # This file is located in ~/.ros
-        self.ttc_data_file.write("ttc_threshold, min_ttc")
+        self.ttc_data_file.write("ttc_threshold, min_ttc, speed")
         self.ttc_data_file.close()
-        rospy.loginfo("!!!!!!! It Ran !!!!!!!!")
 
     def scan_callback(self, scan_msg):
         # Calculate the TTC around the vehicle (assuming ranges[0] is straight behind)
@@ -73,11 +72,12 @@ class Safety(object):
 
         if min_ttc <= self.ttc_threshold:
             self.speed = 0
-            rospy.loginfo("!!!!!!! Stopped !!!!!!!!")
+
         if min_ttc != float('inf'):
             self.ttc_data_file = open("ttc_data.txt", "a")
-            self.ttc_data_file.write(str(self.ttc_threshold) + ", " + str(min_ttc) + "\n")
+            self.ttc_data_file.write(str(self.ttc_threshold) + ", " + str(min_ttc) + "," + str(self.speed) + "\n")
             self.ttc_data_file.close()
+
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
 
@@ -86,8 +86,6 @@ def main():
     rospy.init_node('safety')
     sn = Safety()
     rospy.spin()
-    rospy.loginfo("!!!!!!! Program Closing !!!!!!!!")
-    #sn.ttc_data_file.close()
 
 if __name__ == '__main__':
     main()
