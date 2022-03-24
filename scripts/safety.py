@@ -56,7 +56,7 @@ class Safety(object):
     def __init__(self):
         self.speed = 1.25
         self.ttc_threshold = 1.0
-        self.output_file = "ttc_data_5m.txt"
+        self.output_file = "dummy.txt"
         rospy.Subscriber('/scan', LaserScan, self.scan_callback)
         self.drive = rospy.Publisher(rospy.get_param('/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
