@@ -54,15 +54,15 @@ def calculate_ttc(r, v, theta):
 # This safety class is based on https://github.com/f1tenth/f1tenth_labs/blob/main/lab2/code/scripts/safety_node.py
 class Safety(object):
     def __init__(self):
-        self.speed = 1.25
+        self.speed = 0.5
         self.ttc_threshold = 1.0
+        self.output_file = "ttc_data.txt_2m"
         rospy.Subscriber('/scan', LaserScan, self.scan_callback)
         self.drive = rospy.Publisher(rospy.get_param('/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
-        self.ttc_data_file = open("ttc_data.txt_5m", "w") # This file is located in ~/.ros
+        self.ttc_data_file = open(self.output_file, "w") # This file is located in ~/.ros
         self.ttc_data_file.write("ttc_threshold, min_ttc, speed\n")
         self.ttc_data_file.close()
-        #rospy.loginfo('Initialized Succesfully!!!!!')
 
     def scan_callback(self, scan_msg):
         # Calculate the TTC around the vehicle (assuming ranges[0] is straight behind)
@@ -75,10 +75,9 @@ class Safety(object):
             self.speed = 0
 
         if min_ttc != float('inf'):
-            self.ttc_data_file = open("ttc_data.txt", "a")
+            self.ttc_data_file = open(self.output_file, "a")
             self.ttc_data_file.write(str(self.ttc_threshold) + ", " + str(min_ttc) + ", " + str(self.speed) + "\n")
             self.ttc_data_file.close()
-            #rospy.loginfo('Succesfully wrote to file!!!!!')
 
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
