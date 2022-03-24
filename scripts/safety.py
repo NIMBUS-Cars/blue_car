@@ -59,10 +59,10 @@ class Safety(object):
         rospy.Subscriber('/scan', LaserScan, self.scan_callback)
         self.drive = rospy.Publisher(rospy.get_param('/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
-        self.ttc_data_file = open("ttc_data.txt", "w") # This file is located in ~/.ros
+        self.ttc_data_file = open("ttc_data.txt_2m", "w") # This file is located in ~/.ros
         self.ttc_data_file.write("ttc_threshold, min_ttc, speed\n")
         self.ttc_data_file.close()
-        rospy.loginfo('Initialized Succesfully!!!!!')
+        #rospy.loginfo('Initialized Succesfully!!!!!')
 
     def scan_callback(self, scan_msg):
         # Calculate the TTC around the vehicle (assuming ranges[0] is straight behind)
@@ -78,7 +78,7 @@ class Safety(object):
             self.ttc_data_file = open("ttc_data.txt", "a")
             self.ttc_data_file.write(str(self.ttc_threshold) + ", " + str(min_ttc) + ", " + str(self.speed) + "\n")
             self.ttc_data_file.close()
-            rospy.loginfo('Succesfully wrote to file!!!!!')
+            #rospy.loginfo('Succesfully wrote to file!!!!!')
 
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
