@@ -54,7 +54,7 @@ def calculate_ttc(r, v, theta):
 # This safety class is based on https://github.com/f1tenth/f1tenth_labs/blob/main/lab2/code/scripts/safety_node.py
 class Safety(object):
     def __init__(self):
-        self.speed = 1.25
+        self.speed = 1.5
         self.ttc_threshold = 1.0
         self.output_file = "5m.txt"
         rospy.Subscriber('/scan', LaserScan, self.scan_callback)
