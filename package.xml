@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>blue_car</name>
+  <name>red_car</name>
   <version>0.0.0</version>
   <description>The lanefollower package</description>
   <maintainer email="ryan@todo.todo">ryan</maintainer>

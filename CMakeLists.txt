@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(blue_car)
+project(red_car)
 set(OpenCV_DIR /home/car/opencv/build)
 set(CUDA_TOOLKIT_ROOT_DIR /usr/local/cuda)
 find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs message_runtime geometry_msgs sensor_msgs OpenCV cv_bridge image_transport message_generation)
@@ -28,11 +28,6 @@ include_directories(
  ${catkin_INCLUDE_DIRS}
   ${Torch_INCLUDE_DIRS}
 )
-catkin_install_python(PROGRAMS
-  scripts/safety.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-#add_executable(real_car_lane_follow src/fastLaneFollow.cpp)
-#add_dependencies(real_car_lane_follow ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#target_link_libraries(real_car_lane_follow ${catkin_LIBRARIES} ${TORCH_LIBRARIES})
+add_executable(real_car_lane_follow src/fastLaneFollow.cpp)
+add_dependencies(real_car_lane_follow ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(real_car_lane_follow ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
