@@ -29,7 +29,7 @@ class Follower:
             # 480x640
             rospy.loginfo("h %s", h)
             rospy.loginfo("w %s", w)
-            image_crop = image[3*h/4:h, w/4:3*w/4]
+            image_crop = image[3*h/5:h, w/4:3*w/4]
             hsv = cv2.cvtColor(image_crop, cv2.COLOR_BGR2HSV)
 
             # change below lines to map the color you wanted robot to follow
