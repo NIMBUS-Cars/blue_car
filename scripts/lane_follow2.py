@@ -18,9 +18,9 @@ class Follower:
         #cv2.namedWindow("window", 1)
         self.image_sub = rospy.Subscriber('/camera/color/image_raw',
                                           Image, self.image_callback)
-        self.cmd_vel_pub = rospy.Publisher('/cmd_vel',
-                                           Twist, queue_size=1)
-        self.twist = Twist()
+        # self.cmd_vel_pub = rospy.Publisher('/cmd_vel',
+        #                                    Twist, queue_size=1)
+        # self.twist = Twist()
 
     def image_callback(self, msg):
         try:
