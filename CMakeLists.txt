@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(blue_car)
+project(car)
 set(OpenCV_DIR /home/car/opencv/build)
 set(CUDA_TOOLKIT_ROOT_DIR /usr/local/cuda)
 find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs message_runtime geometry_msgs sensor_msgs OpenCV cv_bridge image_transport message_generation)
