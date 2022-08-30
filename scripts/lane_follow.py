@@ -63,6 +63,7 @@ class Follower:
                 err = cx - w/2
                 self.twist.linear.x = 0.2
                 self.twist.angular.z = -float(err) / 100
+                rospy.loginfo("self.twist %s", self.twist)
                 self.drive_msg.drive.steering_angle = self.twist
                 self.drive.publish(self.twist)
                 # CONTROL ends
