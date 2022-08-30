@@ -27,8 +27,8 @@ class Follower:
             image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
             h, w, d = image.shape
             # 480x640
-            # rospy.loginfo("h %s", h)
-            # rospy.loginfo("w %s", w)
+            rospy.loginfo("h %s", h)
+            rospy.loginfo("w %s", w)
             image_crop = image[300:480, 100:500]
             hsv = cv2.cvtColor(image_crop, cv2.COLOR_BGR2HSV)
 
@@ -43,14 +43,14 @@ class Follower:
             # it will return line coordinates,it will return 3darray.
             lines = cv2.HoughLinesP(
                 edged, 1, np.pi/180, 10, 5, 10)
-            rospy.loginfo("\nlines %s", lines)
+            # rospy.loginfo("\nlines %s", lines)
             for x in range(0, len(lines)):
                 for x1,y1,x2,y2 in lines[x]:
                     # draw line in image using cv2.line function.
                     cv2.line(image,(x1,y1),(x2,y2),(255,0,0),3)
                     theta = math.atan2((y2-y1),(x2-x1))
                     theta += theta
-                    rospy.loginfo("theta %s", theta)
+                    # rospy.loginfo("theta %s", theta)
             
             threshold=5
             if(theta>threshold):
