@@ -4,6 +4,11 @@
 
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Image, CameraInfo
+from std_msgs.msg import Float64
+from std_msgs.msg import Bool
+from geometry_msgs.msg import TwistWithCovariance
+from nav_msgs.msg import Odometry
+from ackermann_msgs.msg import AckermannDriveStamped
 import numpy as np
 import cv_bridge
 import cv2
@@ -17,9 +22,12 @@ class Follower:
         #cv2.namedWindow("window", 1)
         self.image_sub = rospy.Subscriber('/camera/color/image_raw',
                                           Image, self.image_callback)
+        self.drive = rospy.Publisher(rospy.get_param(
+            '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
+        self.drive_msg = AckermannDriveStamped()
         # self.cmd_vel_pub = rospy.Publisher('/cmd_vel',
         #                                    Twist, queue_size=1)
-        # self.twist = Twist()
+        self.twist = Twist()
 
     def image_callback(self, msg):
         try:
@@ -52,10 +60,11 @@ class Follower:
                 cv2.putText(blur, "Centroid", (cx - 25, cy - 25),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (125, 125, 125), 2)
                 # CONTROL starts
-                # err = cx - w/2
-                # self.twist.linear.x = 0.2
-                # self.twist.angular.z = -float(err) / 100
-                # self.cmd_vel_pub.publish(self.twist)
+                err = cx - w/2
+                self.twist.linear.x = 0.2
+                self.twist.angular.z = -float(err) / 100
+                self.drive_msg.drive.steering_angle = self.twist
+                self.drive.publish(self.twist)
                 # CONTROL ends
             cv2.imshow("original image", image)
             cv2.imshow("cropped image", image_crop)
@@ -66,10 +75,12 @@ class Follower:
         except CvBridgeError as e:
             print(e)
 
+
 def main():
     rospy.init_node('lanefollower')
     sn = Follower()
     rospy.spin()
+
 
 if __name__ == '__main__':
     main()
