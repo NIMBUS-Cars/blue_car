@@ -48,10 +48,10 @@ class Follower:
             # rospy.loginfo("M %s", M)
 
             if M['m00'] > 0:
-                # h, w, d = image_crop.shape
+                h, w, d = image_crop.shape
                 # # 180x400
-                # rospy.loginfo("h %s", h)
-                # rospy.loginfo("w %s", w)
+                rospy.loginfo("h %s", h)
+                rospy.loginfo("w %s", w)
                 cx = int(M['m10']/M['m00'])
                 cy = int(M['m01']/M['m00'])
                 rospy.loginfo("cx %s", cx)
