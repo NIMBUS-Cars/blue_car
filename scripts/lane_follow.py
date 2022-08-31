@@ -36,7 +36,7 @@ class Follower:
             # 480x640
             # rospy.loginfo("h %s", h)
             # rospy.loginfo("w %s", w)
-            image_crop = image[3*h/5:h, w/4:3*w/4]
+            image_crop = image[h/2:h, w/4:3*w/4]
             hsv = cv2.cvtColor(image_crop, cv2.COLOR_BGR2HSV)
 
             # change below lines to map the color you wanted robot to follow
@@ -60,11 +60,10 @@ class Follower:
                 cv2.putText(blur, "Centroid", (cx - 25, cy - 25),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (125, 125, 125), 2)
                 # CONTROL starts
-                # err = cx - w/2
-                # self.twist.linear.x = 0.2
-                # self.twist.angular.z = -float(err) / 100
-                # rospy.loginfo("self.twist %s", self.twist)
-                self.drive_msg.drive.steering_angle = -0.5
+                # Steering Calculation
+                # if cx > w
+                # steering_angle = 
+                self.drive_msg.drive.steering_angle = 0.8
                 self.drive.publish(self.drive_msg)
                 # CONTROL ends
             cv2.imshow("original image", image)
