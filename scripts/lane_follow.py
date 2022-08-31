@@ -26,9 +26,6 @@ class Follower:
         self.drive = rospy.Publisher(rospy.get_param(
             '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
-        # self.cmd_vel_pub = rospy.Publisher('/cmd_vel',
-        #                                    Twist, queue_size=1)
-        self.twist = Twist()
 
     def image_callback(self, msg):
         try:
@@ -37,7 +34,7 @@ class Follower:
             # 480x640
             # rospy.loginfo("h %s", h1)
             # rospy.loginfo("w %s", w1)
-            image_crop = image[h1/2:h1, w1/4:3*w1/4]
+            image_crop = image[3*h1/5:h1, w1/4:3*w1/4]
             hsv = cv2.cvtColor(image_crop, cv2.COLOR_BGR2HSV)
 
             # change below lines to map the color you wanted robot to follow
@@ -50,9 +47,9 @@ class Follower:
 
             if M['m00'] > 0:
                 h2, w2, d2 = image_crop.shape
-                # # 180x400
-                rospy.loginfo("h %s", h2)
-                rospy.loginfo("w %s", w2)
+                # 180x400
+                # rospy.loginfo("h %s", h2)
+                # rospy.loginfo("w %s", w2)
                 cx = int(M['m10']/M['m00'])
                 cy = int(M['m01']/M['m00'])
                 rospy.loginfo("cx %s", cx)
@@ -66,7 +63,9 @@ class Follower:
                     steering_angle = math.atan2(h2-cy, cx-(w2/2))
                 else:
                     steering_angle = -math.atan2(h2-cy, cx-(w2/2))
+                rospy.loginfo("cx %s", cx)
                 self.drive_msg.drive.steering_angle = steering_angle
+                # self.drive_msg.drive.speed = 0.1
                 self.drive.publish(self.drive_msg)
                 # CONTROL ends
             cv2.imshow("original image", image)
