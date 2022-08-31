@@ -64,7 +64,7 @@ class Follower:
                 # self.twist.linear.x = 0.2
                 # self.twist.angular.z = -float(err) / 100
                 # rospy.loginfo("self.twist %s", self.twist)
-                self.drive_msg.drive.steering_angle = 2
+                self.drive_msg.drive.steering_angle = -0.5
                 self.drive.publish(self.drive_msg)
                 # CONTROL ends
             cv2.imshow("original image", image)
