@@ -45,7 +45,7 @@ class Follower:
             mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
             blur = cv2.GaussianBlur(mask, (5, 5), 0)
             M = cv2.moments(blur)
-            rospy.loginfo("M %s", M.size)
+            rospy.loginfo("M %s", M)
 
             if M['m00'] > 0:
                 h2, w2, d2 = image_crop.shape
@@ -64,15 +64,15 @@ class Follower:
                 if cx < w2/2:
                     rospy.loginfo("turn left")
                     steering_angle = math.atan2(h2-cy, cx-(w2/2))
-                    if steering_angle > 0.2:
-                        steering_angle = 0.2
+                    if steering_angle > 0.1:
+                        steering_angle = 0.1
                 else:
                     rospy.loginfo("turn right")
                     steering_angle = -math.atan2(h2-cy, cx-(w2/2))
-                    if steering_angle < -0.2:
-                        steering_angle = -0.2
-            # if not M.size:
-              #  steering_angle = 0.3
+                    if steering_angle < -0.1:
+                        steering_angle = -0.1
+            else:
+                steering_angle = 0.3
 
             rospy.loginfo("steering_angle %s", steering_angle)
             self.drive_msg.drive.steering_angle = steering_angle
