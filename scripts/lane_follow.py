@@ -26,6 +26,7 @@ class Follower:
         self.drive = rospy.Publisher(rospy.get_param(
             '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
+        self.speed = 0.5
 
     def image_callback(self, msg):
         try:
@@ -69,7 +70,7 @@ class Follower:
                         steering_angle = -0.5
                 rospy.loginfo("steering_angle %s", steering_angle)
                 self.drive_msg.drive.steering_angle = steering_angle
-                self.drive_msg.drive.speed = 0.1
+                self.drive_msg.drive.speed = self.speed
                 self.drive.publish(self.drive_msg)
                 # CONTROL ends
             cv2.imshow("original image", image)
