@@ -63,9 +63,9 @@ class Follower:
                 # CONTROL starts
                 # Steering Calculation
                 if cx < w2/2:
-                    steering_angle = -math.atan2(h2-cy, cx-(w2/2))
-                else:
                     steering_angle = math.atan2(h2-cy, cx-(w2/2))
+                else:
+                    steering_angle = -math.atan2(h2-cy, cx-(w2/2))
                 self.drive_msg.drive.steering_angle = steering_angle
                 self.drive.publish(self.drive_msg)
                 # CONTROL ends
