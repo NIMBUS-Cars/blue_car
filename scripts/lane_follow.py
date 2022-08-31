@@ -71,14 +71,14 @@ class Follower:
                     steering_angle = -math.atan2(h2-cy, cx-(w2/2))
                     if steering_angle < -0.2:
                         steering_angle = -0.2
-                if not cx:
-                    steering_angle = 0.3
+            if not M.size:
+                steering_angle = 0.3
 
-                rospy.loginfo("steering_angle %s", steering_angle)
-                self.drive_msg.drive.steering_angle = steering_angle
-                self.drive_msg.drive.speed = self.speed
-                self.drive.publish(self.drive_msg)
-                # CONTROL ends
+            rospy.loginfo("steering_angle %s", steering_angle)
+            self.drive_msg.drive.steering_angle = steering_angle
+            self.drive_msg.drive.speed = self.speed
+            self.drive.publish(self.drive_msg)
+            # CONTROL ends
             cv2.imshow("original image", image)
             cv2.imshow("cropped image", image_crop)
             cv2.imshow("masked image", mask)
