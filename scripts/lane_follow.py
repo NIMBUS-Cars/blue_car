@@ -35,7 +35,7 @@ class Follower:
             # 480x640
             # rospy.loginfo("h %s", h1)
             # rospy.loginfo("w %s", w1)
-            image_crop = image[3*h1/5:h1, w1/4:3*w1/4]
+            image_crop = image[3*h1/4:h1, w1/4:3*w1/4]
             hsv = cv2.cvtColor(image_crop, cv2.COLOR_BGR2HSV)
 
             # change below lines to map the color you wanted robot to follow
@@ -63,13 +63,13 @@ class Follower:
                 if cx < w2/2:
                     rospy.loginfo("turn left")
                     steering_angle = math.atan2(h2-cy, cx-(w2/2))
-                    if steering_angle > 0.2:
-                        steering_angle = 0.2
+                    if steering_angle > 0.1:
+                        steering_angle = 0.1
                 else:
                     rospy.loginfo("turn right")
                     steering_angle = -math.atan2(h2-cy, cx-(w2/2))
-                    if steering_angle < -0.2:
-                        steering_angle = -0.2
+                    if steering_angle < -0.1:
+                        steering_angle = -0.1
                 rospy.loginfo("steering_angle %s", steering_angle)
                 self.drive_msg.drive.steering_angle = steering_angle
                 self.drive_msg.drive.speed = self.speed
