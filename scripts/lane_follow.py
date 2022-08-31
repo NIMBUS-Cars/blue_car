@@ -72,7 +72,7 @@ class Follower:
                     if steering_angle < -0.2:
                         steering_angle = -0.2
                 if not cx:
-                    steering_angle = 0.4
+                    steering_angle = 0.3
 
                 rospy.loginfo("steering_angle %s", steering_angle)
                 self.drive_msg.drive.steering_angle = steering_angle
