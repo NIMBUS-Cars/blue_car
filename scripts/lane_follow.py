@@ -60,12 +60,12 @@ class Follower:
                 cv2.putText(blur, "Centroid", (cx - 25, cy - 25),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (125, 125, 125), 2)
                 # CONTROL starts
-                err = cx - w/2
-                self.twist.linear.x = 0.2
-                self.twist.angular.z = -float(err) / 100
-                rospy.loginfo("self.twist %s", self.twist)
-                self.drive_msg.drive.steering_angle = self.twist
-                self.drive.publish(self.twist)
+                # err = cx - w/2
+                # self.twist.linear.x = 0.2
+                # self.twist.angular.z = -float(err) / 100
+                # rospy.loginfo("self.twist %s", self.twist)
+                self.drive_msg.drive.steering_angle = 2
+                self.drive.publish(self.drive_msg)
                 # CONTROL ends
             cv2.imshow("original image", image)
             cv2.imshow("cropped image", image_crop)
