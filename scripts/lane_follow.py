@@ -26,7 +26,7 @@ class Follower:
         self.drive = rospy.Publisher(rospy.get_param(
             '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
-        self.speed = 0.5
+        self.speed = 1
 
     def image_callback(self, msg):
         try:
@@ -62,12 +62,12 @@ class Follower:
                 # Steering Calculation
                 if cx < w2/2:
                     steering_angle = math.atan2(h2-cy, cx-(w2/2))
-                    if steering_angle > 0.5:
-                        steering_angle = 0.5
+                    if steering_angle > 0.4:
+                        steering_angle = 0.4
                 else:
                     steering_angle = -math.atan2(h2-cy, cx-(w2/2))
-                    if steering_angle < -0.5:
-                        steering_angle = -0.5
+                    if steering_angle < -0.4:
+                        steering_angle = -0.4
                 rospy.loginfo("steering_angle %s", steering_angle)
                 self.drive_msg.drive.steering_angle = steering_angle
                 self.drive_msg.drive.speed = self.speed
