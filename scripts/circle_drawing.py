@@ -15,10 +15,19 @@ import math
 class CircleDrawing:
 
     def __init__(self):
-        self.speed = 0.3
-        self.steering = 1
+        self.speed = 0
+        self.steering = 0
         self.drive = rospy.Publisher(rospy.get_param('nav_drive_topic'), AckermannDriveStamped, queue_size=10)
+        rospy.Subscriber('/odom', Odometry, self.odometryCallback)
         self.drive_msg = AckermannDriveStamped()
+
+
+    def odometryCallback(self, odom_msg):
+        rospy.loginfo("odom_msg %s", odom_msg.pose.pose)
+        rospy.loginfo("odom_msg %s", odom_msg.twist.twist)
+
+        self.speed = 0.5
+        self.steering = 1
         self.drive_msg.drive.speed = self.speed
         self.drive_msg.drive.steering_angle = self.steering
         self.drive.publish(self.drive_msg)
