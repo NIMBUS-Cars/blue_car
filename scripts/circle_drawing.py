@@ -18,7 +18,7 @@ class CircleDrawing:
         self.speed = 0
         self.steering = 0
         self.drive = rospy.Publisher(rospy.get_param('nav_drive_topic'), AckermannDriveStamped, queue_size=10)
-        rospy.Subscriber('/odom', Odometry, self.odometryCallback)
+        rospy.Subscriber('/vesc/odom', Odometry, self.odometryCallback)
         self.drive_msg = AckermannDriveStamped()
 
 
