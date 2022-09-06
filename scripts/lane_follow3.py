@@ -1,19 +1,13 @@
 #!/usr/bin/env python
 
-"""follower_ros.py: Robot will follow the Yellow Line in a track"""
-
 from geometry_msgs.msg import Twist
-from sensor_msgs.msg import Image, CameraInfo
 from std_msgs.msg import Float64
 from std_msgs.msg import Bool
 from geometry_msgs.msg import TwistWithCovariance
 from nav_msgs.msg import Odometry
 from ackermann_msgs.msg import AckermannDriveStamped
 import numpy as np
-import cv_bridge
-import cv2
 import rospy
-import math
 
 
 class Follower:
@@ -21,8 +15,6 @@ class Follower:
     def __init__(self):
         self.odom_sub = rospy.Subscriber(
             '/vesc/odom', Odometry, self.odom_callback)
-        # self.image_sub = rospy.Subscriber('/camera/color/image_raw',
-        #                                   Image, self.image_callback)
         self.drive = rospy.Publisher(rospy.get_param(
             '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
@@ -34,8 +26,8 @@ class Follower:
         rospy.loginfo("odom_msg %s", odom_msg.pose.pose)
         rospy.loginfo("odom_msg %s", odom_msg.twist.twist)
 
-        self.speed = 0.5
-        self.steering = 1
+        self.speed = 1
+        self.steering = 1.5
         self.drive_msg.drive.speed = self.speed
         self.drive_msg.drive.steering_angle = self.steering
         self.drive.publish(self.drive_msg)
