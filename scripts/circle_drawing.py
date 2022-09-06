@@ -11,7 +11,7 @@ from ackermann_msgs.msg import AckermannDriveStamped
 import rospy
 
 
-class Circleing:
+class Follower:
 
     def __init__(self):
         self.odom_sub = rospy.Subscriber(
@@ -35,8 +35,8 @@ class Circleing:
 
 
 def main():
-    rospy.init_node('circleDrawing')
-    sn = Circleing()
+    rospy.init_node('lanefollower4')
+    sn = Follower()
     rospy.spin()
 
 
