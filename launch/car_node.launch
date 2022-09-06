@@ -8,6 +8,6 @@
     </node> -->
     <!-- <node pkg="blue_car" name="lanefollower3" type="lane_follow3.py" output="screen">
     </node> -->
-    <node pkg="blue_car" name="lanefollower4" type="circle_drawing.py" output="screen">
+    <node pkg="blue_car" name="lanefollower3" type="circle_drawing.py" output="screen">
     </node>
 </launch>
