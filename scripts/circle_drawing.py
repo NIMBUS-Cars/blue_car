@@ -8,6 +8,7 @@ from std_msgs.msg import Bool
 from geometry_msgs.msg import TwistWithCovariance
 from nav_msgs.msg import Odometry
 from ackermann_msgs.msg import AckermannDriveStamped
+import numpy as np
 import rospy
 
 
@@ -35,7 +36,7 @@ class Follower:
 
 
 def main():
-    rospy.init_node('lanefollower4')
+    rospy.init_node('lanefollower3')
     sn = Follower()
     rospy.spin()
 
