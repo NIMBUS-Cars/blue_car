@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+"""circle_follow.py: Robot will draw a circle in a track"""
+
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
 from std_msgs.msg import Bool
