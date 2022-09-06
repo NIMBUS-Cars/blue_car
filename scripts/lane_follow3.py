@@ -19,8 +19,8 @@ import math
 class Follower:
 
     def __init__(self):
-        self.bridge = cv_bridge.CvBridge()
-        #cv2.namedWindow("window", 1)
+        # self.odom_sub = rospy.Subscriber(
+        #     '/vesc/odom', Odometry, self.odom_callback)
         self.image_sub = rospy.Subscriber('/camera/color/image_raw',
                                           Image, self.image_callback)
         self.drive = rospy.Publisher(rospy.get_param(
@@ -29,7 +29,18 @@ class Follower:
         self.speed = 0
         self.steering = 0
 
-    def image_callback(self, msg):
+    def odom_callback(self, odom_msg):
+        rospy.loginfo("odom_callback")
+        rospy.loginfo("odom_msg %s", odom_msg.pose.pose)
+        rospy.loginfo("odom_msg %s", odom_msg.twist.twist)
+
+        self.speed = 0.5
+        self.steering = 1
+        self.drive_msg.drive.speed = self.speed
+        self.drive_msg.drive.steering_angle = self.steering
+        self.drive.publish(self.drive_msg)
+
+    def image_callback(self, img_msg):
         rospy.loginfo("image_callback")
         rospy.loginfo("odom_msg %s", img_msg.pose.pose)
         rospy.loginfo("odom_msg %s", img_msg.twist.twist)
@@ -39,6 +50,7 @@ class Follower:
         self.drive_msg.drive.speed = self.speed
         self.drive_msg.drive.steering_angle = self.steering
         self.drive.publish(self.drive_msg)
+
 
 def main():
     rospy.init_node('lanefollower3')

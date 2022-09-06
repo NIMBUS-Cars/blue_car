@@ -16,8 +16,6 @@ from sensor_msgs.msg import Image, CameraInfo
 class CircleDrawing:
 
     def __init__(self):
-        self.speed = 0
-        self.steering = 0
         # self.odom_sub = rospy.Subscriber(
         #     '/vesc/odom', Odometry, self.odom_callback)
         self.image_sub = rospy.Subscriber('/camera/color/image_raw',
@@ -25,9 +23,11 @@ class CircleDrawing:
         self.drive = rospy.Publisher(rospy.get_param(
             'nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
+        self.speed = 0
+        self.steering = 0
 
     # def odom_callback(self, odom_msg):
-    #     rospy.loginfo("image_callback")
+    #     rospy.loginfo("odom_callback")
     #     rospy.loginfo("odom_msg %s", odom_msg.pose.pose)
     #     rospy.loginfo("odom_msg %s", odom_msg.twist.twist)
 
