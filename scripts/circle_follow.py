@@ -24,9 +24,9 @@ class Follower:
         self.steering = 0
 
     def odom_callback(self, odom_msg):
-        rospy.loginfo("odom_callback")
-        rospy.loginfo("odom_msg %s", odom_msg.pose.pose)
-        rospy.loginfo("odom_msg %s", odom_msg.twist.twist)
+        #rospy.loginfo("odom_callback")
+        #rospy.loginfo("odom_msg %s", odom_msg.pose.pose)
+        #rospy.loginfo("odom_msg %s", odom_msg.twist.twist)
 
         self.speed = 0.5
         self.steering = 0.85
