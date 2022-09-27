@@ -17,16 +17,17 @@ import math
 class AEB:
 
     def __init__(self):
+        self.ttc_threshold = 1.0
         self.lidar_sub = rospy.Subscriber('/scan',
                                           LaserScan, self.lidar_callback)
-        self.drive = rospy.Publisher(rospy.get_param(
-            '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
-        self.drive_msg = AckermannDriveStamped()
-        self.speed = 0.5
+        # self.drive = rospy.Publisher(rospy.get_param(
+        #     '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
+        # self.drive_msg = AckermannDriveStamped()
+        # self.speed = 0.5
 
-    def lidar_callback(self, msg):
+    def lidar_callback(self, lidar_msg):
         rospy.loginfo("lidar_callback")
-        rospy.loginfo("lidar_msg %s", msg)
+        rospy.loginfo("lidar_msg %s", lidar_msg.header)
 
 
 def main():
