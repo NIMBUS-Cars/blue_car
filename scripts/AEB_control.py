@@ -20,14 +20,21 @@ class AEB:
         self.ttc_threshold = 1.0
         self.lidar_sub = rospy.Subscriber('/scan',
                                           LaserScan, self.lidar_callback)
-        # self.drive = rospy.Publisher(rospy.get_param(
-        #     '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
-        # self.drive_msg = AckermannDriveStamped()
-        # self.speed = 0.5
+        self.drive = rospy.Publisher(rospy.get_param(
+            '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
+        self.drive_msg = AckermannDriveStamped()
+        self.speed = 0
+        self.steering = 0
 
     def lidar_callback(self, lidar_msg):
         rospy.loginfo("lidar_callback")
-        rospy.loginfo("lidar_msg %s", lidar_msg.header)
+        rospy.loginfo("lidar_msg %s", lidar_msg)
+        
+        self.speed = 0.5
+        # self.steering = 0
+        self.drive_msg.drive.speed = self.speed
+        # self.drive_msg.drive.steering_angle = self.steering
+        self.drive.publish(self.drive_msg)
 
 
 def main():
