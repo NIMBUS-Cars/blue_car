@@ -54,7 +54,7 @@ class Safety(object):
             angles_array = np.arange(
                 fixed_angle_min, fixed_angle_max, scan_msg.angle_increment)
             ranges_array = np.array(scan_msg.ranges)
-            rospy.loginfo("ranges_array: %s",  ranges_array)
+            # rospy.loginfo("ranges_array: %s",  ranges_array)
 
             # fix denominator
             # option 1 --------
@@ -74,14 +74,14 @@ class Safety(object):
             min_ttc = np.min(ttcs)
             rospy.loginfo("min ttc: %s", min_ttc)
 
-            # TODO: publish brake message and publish controller bool
-            if min_ttc < self.ttc_threshhold:
-                rospy.loginfo("Min TTC below Threshhold, Apply brake here")
-                # self.brake_bool_pub.publish(True)
-                self.speed = 0.0
+            # # TODO: publish brake message and publish controller bool
+            # if min_ttc < self.ttc_threshhold:
+            #     rospy.loginfo("Min TTC below Threshhold, Apply brake here")
+            #     # self.brake_bool_pub.publish(True)
+            #     self.speed = 0.0
 
-            else:
-                self.brake_bool_pub.publish(False)
+            # else:
+            #     self.brake_bool_pub.publish(False)
 
             # self.drive_msg.steering_angle = steeringAngle*-0.75
             self.drive_msg.drive.speed = self.speed
