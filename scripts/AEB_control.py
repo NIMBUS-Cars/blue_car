@@ -36,10 +36,9 @@ class AEB:
         # Calculate the TTC around the vehicle (assuming ranges[0] is straight behind)
         min_ttc = float('inf')
         # increment by 2 to reduce calculation time
-        angle = scan_msg.angle_min
         for i in range(0, len(scan_msg.ranges), 2):
             ttc = TTC_calc(
-                scan_msg.ranges[i], self.speed, angle + i * scan_msg.angle_increment)
+                scan_msg.ranges[i], self.speed, i * scan_msg.angle_increment)
             min_ttc = min(min_ttc, ttc)
 
         if min_ttc <= self.ttc_threshold:
