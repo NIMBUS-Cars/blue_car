@@ -58,17 +58,17 @@ class Safety(object):
 
             # fix denominator
             # option 1 --------
-            # self.range_rates = np.max(
-            #    self.speed * np.cos(self.angles_array), 0) + 0.000000001
-            # self.ttcs = (self.ranges_array/self.range_rates)
+            # range_rates = np.max(
+            #    self.speed * np.cos(angles_array), 0) + 0.000000001
+            # ttcs = (ranges_array/range_rates)
             # --------------
             # option 2 ----------
-            denominator = np.max(self.speed * np.cos(self.angles_array), 0)
+            denominator = np.max(self.speed * np.cos(angles_array), 0)
             if (denominator == 0):
                 ttcs = np.inf
             else:
                 range_rates = denominator
-                ttcs = (self.ranges_array/self.range_rates)
+                ttcs = (ranges_array/range_rates)
             # ------------
             # find the minimum ttc value
             min_ttc = np.min(ttcs)
