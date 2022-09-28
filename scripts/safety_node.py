@@ -27,7 +27,7 @@ class Safety(object):
             self.drive_topic, AckermannDriveStamped, queue_size=10)
         self.brake_bool_pub = rospy.Publisher(
             "/brake_bool", Bool, queue_size=10)
-        self.ttc_threshhold = 0.8
+        self.ttc_threshhold = 0.09
         self.drive_msg = AckermannDriveStamped()
 
     def scan_callback(self, scan_msg):
@@ -75,13 +75,13 @@ class Safety(object):
             rospy.loginfo("min ttc: %s", min_ttc)
 
             # # TODO: publish brake message and publish controller bool
-            # if min_ttc < self.ttc_threshhold:
-            #     rospy.loginfo("Min TTC below Threshhold, Apply brake here")
-            #     # self.brake_bool_pub.publish(True)
-            #     self.speed = 0.0
+            if min_ttc < self.ttc_threshhold:
+                rospy.loginfo("Min TTC below Threshhold, Apply brake here")
+                # self.brake_bool_pub.publish(True)
+                self.speed = 0.0
 
-            # else:
-            #     self.brake_bool_pub.publish(False)
+            else:
+                self.brake_bool_pub.publish(False)
 
             # self.drive_msg.steering_angle = steeringAngle*-0.75
             self.drive_msg.drive.speed = self.speed
