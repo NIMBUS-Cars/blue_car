@@ -96,7 +96,7 @@ class Safety(object):
             #     self.brake_bool_pub.publish(False)
 
             # self.drive_msg.steering_angle = steeringAngle*-0.75
-            self.drive_msg.speed = self.speed
+            self.drive_msg.drive.speed = self.speed
             self.drive_pub.publish(self.drive_msg)
 
 
