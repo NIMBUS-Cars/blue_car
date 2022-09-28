@@ -27,7 +27,7 @@ class Safety(object):
             self.drive_topic, AckermannDriveStamped, queue_size=10)
         self.brake_bool_pub = rospy.Publisher(
             "/brake_bool", Bool, queue_size=10)
-        self.ttc_threshhold = 0.09
+        self.ttc_threshhold = 0.14
         self.drive_msg = AckermannDriveStamped()
 
     def scan_callback(self, scan_msg):
@@ -51,8 +51,10 @@ class Safety(object):
             # rospy.loginfo("fixed angle min: ",  fixed_angle_min)
             # rospy.loginfo("fixed angle max: ",  fixed_angle_max)
 
+            # angles_array = np.arange(
+            #     fixed_angle_min, fixed_angle_max, scan_msg.angle_increment)
             angles_array = np.arange(
-                fixed_angle_min, fixed_angle_max, scan_msg.angle_increment)
+                scan_msg.angle_min, scan_msg.angle_max, scan_msg.angle_increment)
             ranges_array = np.array(scan_msg.ranges)
             # rospy.loginfo("ranges_array: %s",  ranges_array)
 
