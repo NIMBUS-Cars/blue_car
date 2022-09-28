@@ -55,8 +55,9 @@ class Safety(object):
             #     fixed_angle_min, fixed_angle_max, scan_msg.angle_increment)
             angles_array = np.arange(
                 scan_msg.angle_min, scan_msg.angle_max, scan_msg.angle_increment)
-            ranges_array = np.array(scan_msg.ranges - 0.15)
-            # rospy.loginfo("ranges_array: %s",  ranges_array)
+            ranges_array = np.array(scan_msg.ranges)
+            ranges_array = np.array([ranges_array - 0.15])
+            rospy.loginfo("ranges_array: %s",  ranges_array)
 
             # fix denominator
             # option 1 --------
