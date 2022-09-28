@@ -19,7 +19,7 @@ def TTC_calc(r_i, v_x, theta):
     if r_i_dot >= 0:
         TTC_i = float('inf')
     else:
-        TTC_i = r_i / max(-r_i_dot, 0)
+        TTC_i = r_i / (-r_i_dot)
     return TTC_i
 
 
@@ -31,13 +31,13 @@ class AEB:
             '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
         self.ttc_threshold = 1.0
-        self.speed = 0
+        self.speed = 1.0
 
     def lidar_callback(self, lidar_msg):
         # rospy.loginfo("lidar_callback")
         # rospy.loginfo("lidar_msg %s", lidar_msg)
         min_ttc = float('inf')
-        self.speed = 0.5
+        # self.speed = 0.5
 
         # increment by 2 to reduce calculation time
         for i in range(0, len(lidar_msg.ranges), 2):
@@ -46,9 +46,9 @@ class AEB:
             min_ttc = min(min_ttc, ttc)
             rospy.loginfo("min_ttc %s", min_ttc)
 
-        if min_ttc <= self.ttc_threshold:
-            rospy.loginfo("Apply brake!")
-            self.speed = 0
+        # if min_ttc <= self.ttc_threshold:
+        #     rospy.loginfo("Apply brake!")
+        #     self.speed = 0
 
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
