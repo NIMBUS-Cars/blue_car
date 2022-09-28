@@ -10,5 +10,5 @@
     </node> -->
     <!-- <node pkg="blue_car" name="AEB_node" type="AEB_control.py" output="screen">
     </node> -->
-    <node pkg = "blue_car" type ="safety_node.py" name = "yuntao_safety" output="screen"/>
+    <node pkg = "blue_car" type ="safety_node.py" name = "safety" output="screen"/>
 </launch>
