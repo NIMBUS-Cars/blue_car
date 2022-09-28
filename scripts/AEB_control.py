@@ -15,7 +15,7 @@ import math
 
 
 def TTC_calc(r_i, v_x, theta):
-    r_i_dot = 1*v_x*math.cos(theta)
+    r_i_dot = 1 * v_x * math.cos(theta)
     if r_i_dot >= 0:
         TTC_i = float('inf')
     else:
@@ -25,44 +25,25 @@ def TTC_calc(r_i, v_x, theta):
 
 class AEB:
     def __init__(self):
-        # self.odom_sub = rospy.Subscriber(
-        #     '/vesc/odom', Odometry, self.odom_callback)
-        self.lidar_sub = rospy.Subscriber('/scan',
-                                          LaserScan, self.lidar_callback)
-
+        self.speed = 1.0
+        self.ttc_threshold = 1.0
+        rospy.Subscriber('/scan', LaserScan, self.scan_callback)
         self.drive = rospy.Publisher(rospy.get_param(
             '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
-        self.ttc_threshold = 1.0
-        self.speed = 0.5
 
-    # def odom_callback(self, odom_msg):
-    #     #rospy.loginfo("odom_callback")
-    #     self.speed = odom_msg.twist.twist.linear.x
-
-    def lidar_callback(self, lidar_msg):
-        # rospy.loginfo("lidar_callback")
-        # rospy.loginfo("lidar_msg %s", lidar_msg)
+    def scan_callback(self, scan_msg):
+        # Calculate the TTC around the vehicle (assuming ranges[0] is straight behind)
         min_ttc = float('inf')
-        # self.speed = 0.5
-
-        # increment by some big number to reduce calculation time
-        for i in range(0, len(lidar_msg.ranges), 2):
-            if (lidar_msg.ranges[i] > lidar_msg.range_max or lidar_msg.ranges[i] < lidar_msg.range_min):
-                continue
-            rospy.loginfo("lidar_msg %s", lidar_msg.ranges[i])
-            lidar_angle = lidar_msg.angle_min + i*lidar_msg.angle_increment
-            rospy.loginfo("lidar_angle %s", lidar_angle)
+        # increment by 2 to reduce calculation time
+        angle = scan_msg.angle_min
+        for i in range(0, len(scan_msg.ranges), 2):
             ttc = TTC_calc(
-                lidar_msg.ranges[i], self.speed, lidar_angle)
+                scan_msg.ranges[i], self.speed, angle + i * scan_msg.angle_increment)
             min_ttc = min(min_ttc, ttc)
-            rospy.loginfo("min_ttc %s", min_ttc)
 
-        # if min_ttc <= self.ttc_threshold:
-        #     rospy.loginfo("Apply brake!")
-        #     self.speed = 0
-        #     self.acceleration = 0
-        #     self.jerk = 0
+        if min_ttc <= self.ttc_threshold:
+            self.speed = 0
 
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
