@@ -14,26 +14,41 @@ import rospy
 import math
 
 
-class AEB:
+def TTC_calc(r_i, v_x, theta):
+    r_i_dot = 1*v_x*math.cos(theta)
+    if r_i_dot >= 0:
+        TTC_i = float('inf')
+    else:
+        TTC_i = r_i / max(-r_i_dot, 0)
+    return TTC_i
 
+
+class AEB:
     def __init__(self):
-        self.ttc_threshold = 1.0
         self.lidar_sub = rospy.Subscriber('/scan',
                                           LaserScan, self.lidar_callback)
         self.drive = rospy.Publisher(rospy.get_param(
             '/nav_drive_topic'), AckermannDriveStamped, queue_size=10)
         self.drive_msg = AckermannDriveStamped()
-        self.speed = 0
+        self.ttc_threshold = 1.0
+        self.speed = 0.5
         self.steering = 0
 
     def lidar_callback(self, lidar_msg):
-        rospy.loginfo("lidar_callback")
-        rospy.loginfo("lidar_msg %s", lidar_msg)
-        
-        self.speed = 0.5
-        # self.steering = 0
+        # rospy.loginfo("lidar_callback")
+        # rospy.loginfo("lidar_msg %s", lidar_msg)
+        min_ttc = float('inf')
+        # increment by 2 to reduce calculation time
+        for i in range(0, len(lidar_msg.ranges), 2):
+            ttc = TTC_calc(
+                lidar_msg.ranges[i], self.speed, i*lidar_msg.angle_increment)
+            min_ttc = min(min_ttc, ttc)
+
+        if min_ttc <= self.ttc_threshold:
+            rospy.loginfo("Apply brake!")
+            self.speed = 0
+
         self.drive_msg.drive.speed = self.speed
-        # self.drive_msg.drive.steering_angle = self.steering
         self.drive.publish(self.drive_msg)
 
 
