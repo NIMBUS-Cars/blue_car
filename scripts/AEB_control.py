@@ -41,7 +41,7 @@ class AEB:
 
         # increment by 2 to reduce calculation time
         for i in range(0, len(lidar_msg.ranges), 2):
-            rospy.loginfo("lidar_msg %s", lidar_msg.range[i])
+            rospy.loginfo("lidar_msg %s", lidar_msg.ranges[i])
             # ttc = TTC_calc(
             #     lidar_msg.ranges[i], self.speed, i*lidar_msg.angle_increment)
             # min_ttc = min(min_ttc, ttc)
