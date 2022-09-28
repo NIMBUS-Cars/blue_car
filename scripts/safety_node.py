@@ -37,6 +37,7 @@ class Safety(object):
         self.drive_pub = rospy.Publisher(self.drive_topic, AckermannDriveStamped, queue_size=10)
         self.brake_bool_pub = rospy.Publisher("/brake_bool", Bool, queue_size=10)
         self.ttc_threshhold = 0.5
+        self.drive_msg = AckermannDriveStamped()
 
     # def odom_callback(self, odom_msg):
     #     # TODO: update current speed
@@ -49,57 +50,54 @@ class Safety(object):
         # print(self.speed)
         if abs(self.speed) > stationary:
             # print("scan_msg: ", scan_msg)
-            self.drive_st_msg = AckermannDriveStamped()
-            self.drive_msg = AckermannDrive()
-            rospy.loginfo("speed: ", self.speed)
+            # rospy.loginfo("speed: ", self.speed)
 
-            # steeringAngle = 0.00
-            # if(self.speed <= 0.2):
-            #     steeringAngle = steeringAngle / 0.75 * 0.9
-            # rospy.loginfo("steering angle: ", self.drive_msg.steering_angle)
+            # # steeringAngle = 0.00
+            # # if(self.speed <= 0.2):
+            # #     steeringAngle = steeringAngle / 0.75 * 0.9
+            # # rospy.loginfo("steering angle: ", self.drive_msg.steering_angle)
 
-            #fixed_angle_min = scan_msg.angle_min + 1.57
-            #fixed_angle_max = scan_msg.angle_max - 1.57
-            fixed_angle_min = scan_msg.angle_min + 2
-            fixed_angle_max = scan_msg.angle_max - 2
-            rospy.loginfo("fixed angle min: ",  fixed_angle_min)
-            rospy.loginfo("fixed angle max: ",  fixed_angle_max)
+            # #fixed_angle_min = scan_msg.angle_min + 1.57
+            # #fixed_angle_max = scan_msg.angle_max - 1.57
+            # fixed_angle_min = scan_msg.angle_min + 2
+            # fixed_angle_max = scan_msg.angle_max - 2
+            # rospy.loginfo("fixed angle min: ",  fixed_angle_min)
+            # rospy.loginfo("fixed angle max: ",  fixed_angle_max)
 
-            self.angles_array = np.arange(fixed_angle_min, fixed_angle_max, scan_msg.angle_increment)
-            self.ranges_array = np.array(scan_msg.ranges)
-            rospy.loginfo("ranges_array: ",  self.ranges_array)
+            # self.angles_array = np.arange(fixed_angle_min, fixed_angle_max, scan_msg.angle_increment)
+            # self.ranges_array = np.array(scan_msg.ranges)
+            # rospy.loginfo("ranges_array: ",  self.ranges_array)
 
-            # fix denominator
-            # option 1 --------
-            # self.range_rates = np.max(
-            #    self.speed * np.cos(self.angles_array), 0) + 0.000000001
-            # self.ttcs = (self.ranges_array/self.range_rates)
-            # --------------
-            # option 2 ----------
-            denominator = np.max(self.speed * np.cos(self.angles_array), 0)
-            if (denominator == 0):
-                self.ttcs = np.inf
-            else:
-                self.range_rates = denominator
-                self.ttcs = (self.ranges_array/self.range_rates)
-            # ------------
-            # find the minimum ttc value
-            self.min_ttc = np.min(self.ttcs)
-            rospy.loginfo("min ttc: ", self.min_ttc)
+            # # fix denominator
+            # # option 1 --------
+            # # self.range_rates = np.max(
+            # #    self.speed * np.cos(self.angles_array), 0) + 0.000000001
+            # # self.ttcs = (self.ranges_array/self.range_rates)
+            # # --------------
+            # # option 2 ----------
+            # denominator = np.max(self.speed * np.cos(self.angles_array), 0)
+            # if (denominator == 0):
+            #     self.ttcs = np.inf
+            # else:
+            #     self.range_rates = denominator
+            #     self.ttcs = (self.ranges_array/self.range_rates)
+            # # ------------
+            # # find the minimum ttc value
+            # self.min_ttc = np.min(self.ttcs)
+            # rospy.loginfo("min ttc: ", self.min_ttc)
 
-            # TODO: publish brake message and publish controller bool
-            if self.min_ttc < self.ttc_threshhold:
-                rospy.loginfo("Min TTC below Threshhold, Apply brake here")
-                self.brake_bool_pub.publish(True)
-                self.speed = 0.0
+            # # TODO: publish brake message and publish controller bool
+            # if self.min_ttc < self.ttc_threshhold:
+            #     rospy.loginfo("Min TTC below Threshhold, Apply brake here")
+            #     self.brake_bool_pub.publish(True)
+            #     self.speed = 0.0
 
-            else:
-                self.brake_bool_pub.publish(False)
+            # else:
+            #     self.brake_bool_pub.publish(False)
 
             # self.drive_msg.steering_angle = steeringAngle*-0.75
             self.drive_msg.speed = self.speed
-            self.drive_st_msg.drive = self.drive_msg
-            self.drive_pub.publish(self.drive_st_msg)
+            self.drive_pub.publish(self.drive_msg)
 
 
 def main():
