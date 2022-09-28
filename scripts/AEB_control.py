@@ -36,15 +36,16 @@ class AEB:
     def lidar_callback(self, lidar_msg):
         # rospy.loginfo("lidar_callback")
         # rospy.loginfo("lidar_msg %s", lidar_msg)
-        # min_ttc = float('inf')
-        # # self.speed = 0.5
+        min_ttc = float('inf')
+        # self.speed = 0.5
 
-        # # increment by 2 to reduce calculation time
-        # for i in range(0, len(lidar_msg.ranges), 2):
-        #     ttc = TTC_calc(
-        #         lidar_msg.ranges[i], self.speed, i*lidar_msg.angle_increment)
-        #     min_ttc = min(min_ttc, ttc)
-        #     rospy.loginfo("min_ttc %s", min_ttc)
+        # increment by 2 to reduce calculation time
+        for i in range(0, len(lidar_msg.ranges), 2):
+            rospy.loginfo("lidar_msg %s", lidar_msg.range[i])
+            # ttc = TTC_calc(
+            #     lidar_msg.ranges[i], self.speed, i*lidar_msg.angle_increment)
+            # min_ttc = min(min_ttc, ttc)
+            # rospy.loginfo("min_ttc %s", min_ttc)
 
         # if min_ttc <= self.ttc_threshold:
         #     rospy.loginfo("Apply brake!")
