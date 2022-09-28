@@ -61,6 +61,8 @@ class AEB:
         # if min_ttc <= self.ttc_threshold:
         #     rospy.loginfo("Apply brake!")
         #     self.speed = 0
+        #     self.acceleration = 0
+        #     self.jerk = 0
 
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
