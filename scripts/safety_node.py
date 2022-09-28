@@ -51,10 +51,10 @@ class Safety(object):
             # rospy.loginfo("fixed angle min: ",  fixed_angle_min)
             # rospy.loginfo("fixed angle max: ",  fixed_angle_max)
 
-            self.angles_array = np.arange(
+            angles_array = np.arange(
                 fixed_angle_min, fixed_angle_max, scan_msg.angle_increment)
-            self.ranges_array = np.array(scan_msg.ranges)
-            # rospy.loginfo("ranges_array: ",  self.ranges_array)
+            ranges_array = np.array(scan_msg.ranges)
+            rospy.loginfo("ranges_array: ",  ranges_array)
 
             # fix denominator
             # option 1 --------
@@ -63,22 +63,22 @@ class Safety(object):
             # self.ttcs = (self.ranges_array/self.range_rates)
             # --------------
             # option 2 ----------
-            denominator = np.max(self.speed * np.cos(self.angles_array), 0)
-            if (denominator == 0):
-                self.ttcs = np.inf
-            else:
-                self.range_rates = denominator
-                self.ttcs = (self.ranges_array/self.range_rates)
-            # ------------
-            # find the minimum ttc value
-            self.min_ttc = np.min(self.ttcs)
-            rospy.loginfo("min ttc: ", self.min_ttc)
+            # denominator = np.max(self.speed * np.cos(self.angles_array), 0)
+            # if (denominator == 0):
+            #     ttcs = np.inf
+            # else:
+            #     range_rates = denominator
+            #     ttcs = (self.ranges_array/self.range_rates)
+            # # ------------
+            # # find the minimum ttc value
+            # min_ttc = np.min(ttcs)
+            # rospy.loginfo("min ttc: ", min_ttc)
 
-            # TODO: publish brake message and publish controller bool
-            if self.min_ttc < self.ttc_threshhold:
-                rospy.loginfo("Min TTC below Threshhold, Apply brake here")
-                # self.brake_bool_pub.publish(True)
-                self.speed = 0.0
+            # # TODO: publish brake message and publish controller bool
+            # if min_ttc < self.ttc_threshhold:
+            #     rospy.loginfo("Min TTC below Threshhold, Apply brake here")
+            #     # self.brake_bool_pub.publish(True)
+            #     self.speed = 0.0
 
             # else:
                 # self.brake_bool_pub.publish(False)
