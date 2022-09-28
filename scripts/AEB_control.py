@@ -32,7 +32,6 @@ class AEB:
         self.drive_msg = AckermannDriveStamped()
         self.ttc_threshold = 1.0
         self.speed = 0.5
-        self.steering = 0
 
     def lidar_callback(self, lidar_msg):
         # rospy.loginfo("lidar_callback")
@@ -45,9 +44,9 @@ class AEB:
             min_ttc = min(min_ttc, ttc)
             rospy.loginfo("min_ttc %s", min_ttc)
 
-        if min_ttc <= self.ttc_threshold:
-            rospy.loginfo("Apply brake!")
-            self.speed = 0
+        # if min_ttc <= self.ttc_threshold:
+        #     rospy.loginfo("Apply brake!")
+        #     self.speed = 0
 
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
