@@ -33,11 +33,10 @@ class AEB:
         self.drive_msg = AckermannDriveStamped()
 
     def scan_callback(self, scan_msg):
-        # Calculate the TTC around the vehicle
+        # Calculate the TTC around the vehicle, angle 0 is front
         min_ttc = float('inf')
-        rospy.loginfo("min scan_msg: %s", scan_msg.angle_min)
         # increment by 2 to reduce calculation time
-        forward_angle = 2.35
+        forward_angle = 0
         for i in range(0, len(scan_msg.ranges), 2):
             theta = abs(forward_angle - i * scan_msg.angle_increment)
             rospy.loginfo("theta: %s", theta)
