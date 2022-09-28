@@ -63,25 +63,25 @@ class Safety(object):
             # self.ttcs = (self.ranges_array/self.range_rates)
             # --------------
             # option 2 ----------
-            # denominator = np.max(self.speed * np.cos(self.angles_array), 0)
-            # if (denominator == 0):
-            #     ttcs = np.inf
-            # else:
-            #     range_rates = denominator
-            #     ttcs = (self.ranges_array/self.range_rates)
-            # # ------------
-            # # find the minimum ttc value
-            # min_ttc = np.min(ttcs)
-            # rospy.loginfo("min ttc: ", min_ttc)
+            denominator = np.max(self.speed * np.cos(self.angles_array), 0)
+            if (denominator == 0):
+                ttcs = np.inf
+            else:
+                range_rates = denominator
+                ttcs = (self.ranges_array/self.range_rates)
+            # ------------
+            # find the minimum ttc value
+            min_ttc = np.min(ttcs)
+            rospy.loginfo("min ttc: %s", min_ttc)
 
-            # # TODO: publish brake message and publish controller bool
-            # if min_ttc < self.ttc_threshhold:
-            #     rospy.loginfo("Min TTC below Threshhold, Apply brake here")
-            #     # self.brake_bool_pub.publish(True)
-            #     self.speed = 0.0
+            # TODO: publish brake message and publish controller bool
+            if min_ttc < self.ttc_threshhold:
+                rospy.loginfo("Min TTC below Threshhold, Apply brake here")
+                # self.brake_bool_pub.publish(True)
+                self.speed = 0.0
 
-            # else:
-                # self.brake_bool_pub.publish(False)
+            else:
+                self.brake_bool_pub.publish(False)
 
             # self.drive_msg.steering_angle = steeringAngle*-0.75
             self.drive_msg.drive.speed = self.speed
