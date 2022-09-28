@@ -51,7 +51,7 @@ class Safety(object):
             # print("scan_msg: ", scan_msg)
             self.drive_st_msg = AckermannDriveStamped()
             self.drive_msg = AckermannDrive()
-            rospy.loginfo("speed: ", self.drive_msg.speed)
+            rospy.loginfo("speed: ", self.speed)
 
             # steeringAngle = 0.00
             # if(self.speed <= 0.2):
