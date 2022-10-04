@@ -26,7 +26,7 @@ def TTC_calc(r_i, v_x, theta):
 class AEB:
     def __init__(self):
         # speed: 0.5, 1.0, 1.5, 2.0
-        self.speed = 1.0
+        self.speed = 1.5
         self.ttc_threshold = 1.0
         rospy.Subscriber('/scan', LaserScan, self.scan_callback)
         self.drive = rospy.Publisher(rospy.get_param(
