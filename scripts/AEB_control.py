@@ -41,7 +41,7 @@ class AEB:
         for i in range(0, len(scan_msg.ranges), 2):
             # theta = abs(forward_angle - (min_angle + i * scan_msg.angle_increment))
             theta = i * scan_msg.angle_increment
-            rospy.loginfo("theta: %s", theta)
+            # rospy.loginfo("theta: %s", theta)
             ttc = TTC_calc(
                 scan_msg.ranges[i], self.speed, theta)
             min_ttc = min(min_ttc, ttc)
