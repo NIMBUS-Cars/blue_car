@@ -33,21 +33,21 @@ class AEB:
         self.drive_msg = AckermannDriveStamped()
 
     def scan_callback(self, scan_msg):
-        # Calculate the TTC around the vehicle, angle 0 is front
-        min_ttc = float('inf')
-        # increment by 2 to reduce calculation time
-        forward_angle = 0
-        min_angle = scan_msg.angle_min
-        for i in range(0, len(scan_msg.ranges), 2):
-            # theta = abs(forward_angle - (min_angle + i * scan_msg.angle_increment))
-            # rospy.loginfo("theta: %s", theta)
-            ttc = TTC_calc(
-                scan_msg.ranges[i], self.speed, i * scan_msg.angle_increment)
-            min_ttc = min(min_ttc, ttc)
+#         # Calculate the TTC around the vehicle, angle 0 is front
+#         min_ttc = float('inf')
+#         # increment by 2 to reduce calculation time
+#         forward_angle = 0
+#         min_angle = scan_msg.angle_min
+#         for i in range(0, len(scan_msg.ranges), 2):
+#             # theta = abs(forward_angle - (min_angle + i * scan_msg.angle_increment))
+#             # rospy.loginfo("theta: %s", theta)
+#             ttc = TTC_calc(
+#                 scan_msg.ranges[i], self.speed, i * scan_msg.angle_increment)
+#             min_ttc = min(min_ttc, ttc)
 
-        if min_ttc <= self.ttc_threshold:
-            rospy.loginfo("Min TTC below Threshhold, Apply brake here")
-            self.speed = 0
+#         if min_ttc <= self.ttc_threshold:
+#             rospy.loginfo("Min TTC below Threshhold, Apply brake here")
+#             self.speed = 0
 
         self.drive_msg.drive.speed = self.speed
         self.drive.publish(self.drive_msg)
