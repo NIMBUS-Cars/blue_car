@@ -6,9 +6,9 @@
     </node> -->
 	<!-- <node pkg="blue_car" name="lanefollower2" type="lane_follow2.py" output="screen">
     </node> -->
-    <node pkg="blue_car" name="circlefollower" type="circle_follow.py" output="screen">
-    </node>
-    <!--<node pkg="blue_car" name="AEB_node" type="AEB_control.py" output="screen">
+<!--     <node pkg="blue_car" name="circlefollower" type="circle_follow.py" output="screen">
     </node> -->
+    <node pkg="blue_car" name="AEB_node" type="AEB_control.py" output="screen">
+    </node>
     <!-- <node pkg = "blue_car" type ="safety_node1.py" name = "safety" output="screen"/> -->
 </launch>
