@@ -28,7 +28,7 @@ class Follower:
         #rospy.loginfo("odom_msg %s", odom_msg.pose.pose)
         #rospy.loginfo("odom_msg %s", odom_msg.twist.twist)
 
-        self.speed = 0.5
+        self.speed = 0.75
         self.steering = 0.85
         self.drive_msg.drive.speed = self.speed
         self.drive_msg.drive.steering_angle = self.steering
