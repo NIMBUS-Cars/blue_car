@@ -50,3 +50,7 @@ include_directories(
 add_executable(real_car_lane_follow src/fastLaneFollow.cpp)
 add_dependencies(real_car_lane_follow ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(real_car_lane_follow ${catkin_LIBRARIES} ${TORCH_LIBRARIES}) 
+
+add_executable(organize src/organize.cpp)
+target_link_libraries(organize ${catkin_LIBRARIES} pcl_visualization)
+add_dependencies(organize testrobots_generate_messages_cpp)
