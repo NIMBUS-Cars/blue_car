@@ -12,12 +12,22 @@ add_message_files(
 	FILES
 	CarObject.msg
   CarObjects.msg
+  H_detection.msg
+  stop.msg
+  Meannn.msg
+  Deviation.msg 
+  position.msg
+  BoundingBoxes.msg
+  Boundingbox.msg
+  Plot.msg
+  distance.msg
 )
 
 generate_messages(
   DEPENDENCIES
   std_msgs
   geometry_msgs
+  sensor_msgs
 )
 
 catkin_package(
